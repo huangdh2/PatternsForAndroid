@@ -1,5 +1,6 @@
 package com.example.treahuang.petterns_demo;
 
+
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -11,15 +12,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+
+import com.example.treahuang.petterns_demo.abstract_factory_pattern.AbstractFactory;
+import com.example.treahuang.petterns_demo.abstract_factory_pattern.BenzFactory;
+import com.example.treahuang.petterns_demo.abstract_factory_pattern.Car;
+import com.example.treahuang.petterns_demo.abstract_factory_pattern.Gun;
+import com.example.treahuang.petterns_demo.state_pattern.VendingMachine;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private TextView showDetail;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        showDetail = (TextView) findViewById(R.id.showdetail);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -56,21 +68,66 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        String temp=null;
+        switch (id) {
+            case R.id.nav_Abstract_Factory:
+                //奔驰车司机
+                AbstractFactory factory = new BenzFactory();
+                //今天想做奥迪车
+                Car car = factory.getCar();
+                //开车
+                temp = car.drive()+ "\n";
+                //获得开Benz时要用的枪
+                Gun gun = factory.getGun();
+                //开火
+                temp = temp + gun.fire()+ "\n";
+                showDetail.setText(temp);
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+                break;
+            case R.id.nav_Adapter:
+                break;
+            case R.id.nav_Decorator:
+                break;
+            case R.id.nav_Facade:
+                break;
+            case R.id.nav_Observer:
+                break;
+            case R.id.nav_State:
+                toolbar.setSubtitle("");
+                VendingMachine machine = new VendingMachine(10);
+                machine.insertMoney();
+                machine.backMoney();
 
-        } else if (id == R.id.nav_slideshow) {
+                temp = "----我要中奖----\n";
 
-        } else if (id == R.id.nav_manage) {
+                temp = temp + machine.insertMoney() + "\n";
+                temp = temp + machine.turnCrank() + "\n" + "\n";
+                temp = temp + machine.insertMoney() + "\n";
+                temp = temp + machine.turnCrank() + "\n";
+                temp = temp + machine.insertMoney() + "\n";
+                temp = temp + machine.turnCrank() + "\n";
+                temp = temp + machine.insertMoney() + "\n";
+                temp = temp + machine.turnCrank() + "\n";
+                temp = temp + machine.insertMoney() + "\n";
+                temp = temp + machine.turnCrank() + "\n";
+                temp = temp + machine.insertMoney() + "\n";
+                temp = temp + machine.turnCrank() + "\n";
+                temp = temp + machine.insertMoney() + "\n";
+                temp = temp + machine.turnCrank() + "\n";
 
-        } else if (id == R.id.nav_share) {
+                temp = temp + "-------压力测试------" + "\n";
 
-        } else if (id == R.id.nav_send) {
-
+                temp = temp + machine.insertMoney() + "\n";
+                temp = temp + machine.backMoney() + "\n";
+                temp = temp + machine.backMoney() + "\n";
+                temp = temp + machine.turnCrank() + "\n";// 无效操作
+                temp = temp + machine.turnCrank() + "\n";// 无效操作
+                temp = temp + machine.backMoney() + "\n";
+                showDetail.setText(temp);
+                break;
+            default:
+                break;
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
