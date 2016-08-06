@@ -30,6 +30,6 @@ public class SoldOutState implements State {
 
     @Override
     public String dispense() {
-        throw new IllegalStateException("非法状态！");
+        throw new IllegalStateException("非法状态!");
     }
 }
